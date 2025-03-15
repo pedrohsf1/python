@@ -1,0 +1,58 @@
+entity Aluno {
+  nome String required,
+  matricula String required unique,
+  dataNascimento LocalDate,
+  email String,
+  endereco String
+}
+
+entity Curso {
+  nome String required,
+  codigo String required unique,
+  cargaHoraria Integer
+}
+
+entity Professor {
+  nome String required,
+  especialidade String,
+  email String
+}
+
+entity Matricula {
+  statusMatricula String required
+}
+
+entity Nota {
+  avaliacao String,
+  pontuacao Double
+}
+
+relationship ManyToMany {
+  Aluno{curso(nome)} to Curso{aluno(nome)}
+}
+
+relationship OneToMany {
+  Curso{professor(nome)} to Professor
+}
+
+relationship ManyToOne {
+  Matricula{aluno(nome)} to Aluno,
+  Matricula{curso(nome)} to Curso
+}
+
+relationship OneToMany {
+  Nota{curso(nome)} to Curso,
+  Nota{aluno(nome)} to Aluno
+}
+
+relationship OneToMany {
+  Aluno{matricula} to Matricula,
+  Curso{matricula} to Matricula
+}
+
+relationship OneToMany {
+  Aluno{nota} to Nota,
+  Curso{nota} to Nota
+}
+
+paginate Aluno, Curso, Professor with pagination
